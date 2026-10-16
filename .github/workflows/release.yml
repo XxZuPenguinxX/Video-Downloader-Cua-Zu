@@ -41,7 +41,7 @@ jobs:
             -v "$GITHUB_WORKSPACE:/src" \
             -w /src \
             ubuntu:22.04 \
-            bash -lc 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-venv python3-tk dpkg-dev libx11-6 libxext6 libxrender1 libxft2 libfontconfig1 zlib1g && VERSION="$VERSION" bash packaging/linux/build-release.sh deb'
+            bash -lc 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-dev python3-venv python3-tk dpkg-dev libx11-6 libxext6 libxrender1 libxft2 libfontconfig1 zlib1g && VERSION="$VERSION" bash packaging/linux/build-release.sh deb'
       - uses: actions/upload-artifact@v4
         with:
           name: video-downloader-cua-zu-deb-amd64
