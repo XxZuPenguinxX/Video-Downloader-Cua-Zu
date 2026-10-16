@@ -1,0 +1,34 @@
+pkgname=video-downloader-cua-zu
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Video Downloader Cua Zu desktop video downloader'
+arch=('x86_64')
+url='https://github.com/XxZuPenguinxX/Video-Downloader-Cua-Zu'
+license=('MIT')
+depends=('python>=3.10' 'tk' 'yt-dlp')
+optdepends=('ffmpeg: merge separate video and audio streams'
+            'deno: YouTube JavaScript challenge support')
+makedepends=('git')
+source=("git+${url}.git#tag=v${pkgver}")
+sha256sums=('SKIP')
+
+package() {
+    local source_dir="${srcdir}/Video-Downloader-Cua-Zu"
+
+    install -d "${pkgdir}/usr/lib/video-downloader-cua-zu"
+    install -m 0644 "${source_dir}/linktai.py" \
+        "${source_dir}/download_core.py" \
+        "${source_dir}/app_settings.py" \
+        "${pkgdir}/usr/lib/video-downloader-cua-zu/"
+    install -Dm644 "${source_dir}/LICENSE" \
+        "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+    install -Dm644 "${source_dir}/packaging/linux/video-downloader-cua-zu.desktop" \
+        "${pkgdir}/usr/share/applications/video-downloader-cua-zu.desktop"
+    install -d "${pkgdir}/usr/bin"
+    cat > "${pkgdir}/usr/bin/video-downloader-cua-zu" <<'EOF'
+#!/bin/sh
+export PYTHONPATH="/usr/lib/video-downloader-cua-zu${PYTHONPATH:+:$PYTHONPATH}"
+exec /usr/bin/python /usr/lib/video-downloader-cua-zu/linktai.py "$@"
+EOF
+    chmod 0755 "${pkgdir}/usr/bin/video-downloader-cua-zu"
+}

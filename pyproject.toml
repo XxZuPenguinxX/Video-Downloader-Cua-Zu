@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "video-downloader-cua-zu"
+version = "0.1.0"
+description = "Download videos from supported websites on Windows and Linux"
+requires-python = ">=3.10"
+dependencies = [
+    "yt-dlp[default]>=2025.3.31",
+]
+
+[project.optional-dependencies]
+build = [
+    "pyinstaller>=6.13",
+]
+
+[tool.setuptools]
+py-modules = ["linktai", "download_core", "app_settings"]

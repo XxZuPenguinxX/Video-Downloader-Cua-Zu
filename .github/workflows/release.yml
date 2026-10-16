@@ -1,0 +1,99 @@
+name: Build release packages
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    name: Windows x86 (install.exe)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: x86
+      - name: Build standalone executable
+        shell: pwsh
+        run: |
+          $pythonPath = (Get-Command python).Source
+          & .\build-windows-x86.ps1 -PythonPath $pythonPath
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video-downloader-cua-zu-windows-x86
+          path: dist/install.exe
+
+  deb:
+    name: Ubuntu and Linux Mint (.deb)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build on Ubuntu 22.04
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          docker run --rm \
+            -e VERSION="$VERSION" \
+            -v "$GITHUB_WORKSPACE:/src" \
+            -w /src \
+            ubuntu:22.04 \
+            bash -lc 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-venv python3-tk dpkg-dev libx11-6 libxext6 libxrender1 libxft2 libfontconfig1 zlib1g && VERSION="$VERSION" bash packaging/linux/build-release.sh deb'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video-downloader-cua-zu-deb-amd64
+          path: dist/release/*.deb
+
+  rpm:
+    name: Fedora (.rpm)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build in Fedora
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          docker run --rm \
+            -e VERSION="$VERSION" \
+            -v "$GITHUB_WORKSPACE:/src" \
+            -w /src \
+            fedora:latest \
+            bash -lc 'dnf install -y python3 python3-pip python3-tkinter gcc make rpm-build tar gzip libX11 libXext libXrender libXft fontconfig zlib && VERSION="$VERSION" bash packaging/linux/build-release.sh rpm'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video-downloader-cua-zu-rpm-x86_64
+          path: dist/release/*.rpm
+
+  arch:
+    name: Arch Linux (.pkg.tar.zst)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build package in Arch Linux
+        run: |
+          docker run --rm \
+            -e VERSION="${GITHUB_REF_NAME#v}" \
+            -v "$GITHUB_WORKSPACE:/src" \
+            -w /src \
+            archlinux:latest \
+            bash -lc 'pacman -Syu --noconfirm --needed base-devel git python tk yt-dlp; install -d /tmp/video-downloader-cua-zu; cp -a packaging/aur/PKGBUILD /tmp/video-downloader-cua-zu/; useradd -m builder; chown -R builder:builder /tmp/video-downloader-cua-zu; runuser -u builder -- bash -lc "cd /tmp/video-downloader-cua-zu && sed -i \"s/^pkgver=.*/pkgver=${VERSION}/\" PKGBUILD && makepkg --noconfirm --cleanbuild"; install -d dist/release; cp /tmp/video-downloader-cua-zu/*.pkg.tar.zst dist/release/'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video-downloader-cua-zu-arch-x86_64
+          path: dist/release/*.pkg.tar.zst
+
+  release:
+    name: Publish GitHub Release assets
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, deb, rpm, arch]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*

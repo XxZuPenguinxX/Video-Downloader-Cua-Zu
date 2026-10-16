@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Video Downloader Của Zu
+Name[vi]=Video Downloader Của Zu
+Comment=Download videos from supported websites
+Comment[vi]=Tải video từ các trang web được hỗ trợ
+Exec=video-downloader-cua-zu
+Icon=video-x-generic
+Terminal=false
+Categories=Network;AudioVideo;Video;
+StartupNotify=true
