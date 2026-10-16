@@ -66,9 +66,9 @@ Build cần thực hiện trên đúng hệ điều hành và kiến trúc đíc
 - **Arch Linux:** chạy `bash build-arch.sh`; cần Python, Tkinter và các gói
   build. Ứng dụng nằm trong
   `dist/video-downloader-cua-zu/video-downloader-cua-zu`.
-- **Ubuntu/Linux Mint `.deb`:** `VERSION=0.1.1 bash packaging/linux/build-release.sh deb`
+- **Ubuntu/Linux Mint `.deb`:** `VERSION=0.1.2 bash packaging/linux/build-release.sh deb`
   trên Ubuntu 22.04 trở lên.
-- **Fedora `.rpm`:** `VERSION=0.1.1 bash packaging/linux/build-release.sh rpm`.
+- **Fedora `.rpm`:** `VERSION=0.1.2 bash packaging/linux/build-release.sh rpm`.
 
 ## Cài đặt gói Linux
 

@@ -1,5 +1,5 @@
 pkgname=video-downloader-cua-zu
-pkgver=0.1.1
+pkgver=0.1.2
 pkgrel=1
 pkgdesc='Video Downloader Cua Zu desktop video downloader'
 arch=('x86_64')

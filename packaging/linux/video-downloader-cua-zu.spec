@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 Name:           video-downloader-cua-zu
 Version:        %{app_version}
 Release:        1%{?dist}
