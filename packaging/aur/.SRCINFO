@@ -1,6 +1,6 @@
 pkgbase = video-downloader-cua-zu
 	pkgdesc = Video Downloader Cua Zu desktop video downloader
-	pkgver = 0.1.2
+	pkgver = 0.1.3
 	pkgrel = 1
 	url = https://github.com/XxZuPenguinxX/Video-Downloader-Cua-Zu
 	arch = x86_64
@@ -11,7 +11,7 @@ pkgbase = video-downloader-cua-zu
 	depends = yt-dlp
 	optdepends = ffmpeg: merge separate video and audio streams
 	optdepends = deno: YouTube JavaScript challenge support
-	source = git+https://github.com/XxZuPenguinxX/Video-Downloader-Cua-Zu.git#tag=v0.1.2
+	source = git+https://github.com/XxZuPenguinxX/Video-Downloader-Cua-Zu.git#tag=v0.1.3
 	sha256sums = SKIP
 
 pkgname = video-downloader-cua-zu

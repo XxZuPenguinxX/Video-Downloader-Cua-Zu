@@ -33,7 +33,7 @@ Version: $VERSION
 Section: video
 Priority: optional
 Architecture: amd64
-Depends: libc6 (>= 2.35), libx11-6, libxext6, libxrender1, libxft2, libfontconfig1, zlib1g
+Depends: libc6 (>= 2.35), libpython3.10, libtcl8.6, libtk8.6, libssl3, libx11-6, libxext6, libxrender1, libxft2, libfontconfig1, zlib1g
 Maintainer: Video Downloader Cua Zu contributors
 Description: Desktop video downloader for supported websites
  Download videos from supported websites with a Vietnamese and English

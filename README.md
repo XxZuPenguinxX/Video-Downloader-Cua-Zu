@@ -66,9 +66,9 @@ Build cần thực hiện trên đúng hệ điều hành và kiến trúc đíc
 - **Arch Linux:** chạy `bash build-arch.sh`; cần Python, Tkinter và các gói
   build. Ứng dụng nằm trong
   `dist/video-downloader-cua-zu/video-downloader-cua-zu`.
-- **Ubuntu/Linux Mint `.deb`:** `VERSION=0.1.2 bash packaging/linux/build-release.sh deb`
+- **Ubuntu/Linux Mint `.deb`:** `VERSION=0.1.3 bash packaging/linux/build-release.sh deb`
   trên Ubuntu 22.04 trở lên.
-- **Fedora `.rpm`:** `VERSION=0.1.2 bash packaging/linux/build-release.sh rpm`.
+- **Fedora `.rpm`:** `VERSION=0.1.3 bash packaging/linux/build-release.sh rpm`.
 
 ## Cài đặt gói Linux
 
@@ -113,6 +113,19 @@ Releases lưu gói tải trực tiếp, không tự tạo APT/DNF repository đ�
 `dnf install video-downloader-cua-zu` mà không có đường dẫn file.
 
 ### Cập nhật gói AUR
+
+Để gửi gói lên AUR lần đầu, cần tài khoản AUR và SSH key đã đăng ký. Tạo
+package base `video-downloader-cua-zu` trên trang AUR, sau đó trong máy Arch:
+
+```sh
+git clone ssh://aur@aur.archlinux.org/video-downloader-cua-zu.git
+cp packaging/aur/PKGBUILD packaging/aur/.SRCINFO video-downloader-cua-zu/
+cd video-downloader-cua-zu
+makepkg --printsrcinfo > .SRCINFO
+git add PKGBUILD .SRCINFO
+git commit -m "Initial import"
+git push
+```
 
 Sau khi phát hành tag mới, cập nhật `pkgver` trong `packaging/aur/PKGBUILD`,
 sinh `.SRCINFO` trên Arch Linux bằng `makepkg --printsrcinfo > .SRCINFO`, rồi
