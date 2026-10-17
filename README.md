@@ -114,18 +114,25 @@ Releases lưu gói tải trực tiếp, không tự tạo APT/DNF repository đ�
 
 ### Cập nhật gói AUR
 
-Để gửi gói lên AUR lần đầu, cần tài khoản AUR và SSH key đã đăng ký. Tạo
-package base `video-downloader-cua-zu` trên trang AUR, sau đó trong máy Arch:
+Để gửi gói lên AUR lần đầu, cần tài khoản AUR, SSH key đã đăng ký trong hồ sơ
+AUR và Git name/email đã cấu hình. Từ thư mục mã nguồn đã clone trên máy Arch,
+chạy:
 
 ```sh
 git clone ssh://aur@aur.archlinux.org/video-downloader-cua-zu.git
 cp packaging/aur/PKGBUILD packaging/aur/.SRCINFO video-downloader-cua-zu/
 cd video-downloader-cua-zu
+# Thêm dòng Maintainer của bạn vào đầu PKGBUILD theo hướng dẫn AUR.
 makepkg --printsrcinfo > .SRCINFO
+makepkg --cleanbuild
 git add PKGBUILD .SRCINFO
 git commit -m "Initial import"
 git push
 ```
+
+Khi clone lần đầu, Git có thể báo repository AUR trống; đó là bình thường.
+Package chỉ xuất hiện trên AUR sau khi push thành công. Không gửi PKGBUILD
+khi dòng Maintainer vẫn còn thiếu hoặc chưa build thử.
 
 Sau khi phát hành tag mới, cập nhật `pkgver` trong `packaging/aur/PKGBUILD`,
 sinh `.SRCINFO` trên Arch Linux bằng `makepkg --printsrcinfo > .SRCINFO`, rồi
